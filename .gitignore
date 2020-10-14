@@ -1,0 +1,6 @@
+.idea
+.vscode
+go-template
+*.exe
+*.so
+.env
