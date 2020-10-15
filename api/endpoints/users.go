@@ -90,6 +90,24 @@ func getUser(c *fiber.Ctx) error {
 
 func deleteUser(c *fiber.Ctx) error {
 	userID := c.Params("id")
+	deleted, err := crud.DeleteUser(userID)
+	if err != nil {
+		if err == pg.ErrNoRows {
+			return c.Status(http.StatusNotFound).JSON(fiber.Map{
+				"msg": "user not found",
+			})
+		}
+
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			"msg": "something went wrong",
+			"err": err.Error(),
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"msg": "successfully deleted user",
+		"user": deleted,
+	})
 }
 
 // MountRoutes mounts all routes declared here
