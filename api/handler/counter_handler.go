@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	genapi "sample/api/gen"
+	"sample/logger/tlog"
 	"sample/pkg/domain/service"
 )
 
@@ -17,6 +18,10 @@ type counterHandlerImpl struct {
 
 // TODO: properly implement the two functions
 func (h *counterHandlerImpl) GetCurrentCount(ctx context.Context) (*genapi.CounterResponse, error) {
+	tlog.Info(ctx, "Testing logs in trace", map[string]any{
+		"meaningOfLife": "42",
+	})
+
 	return &genapi.CounterResponse{
 		Count: 0,
 	}, nil

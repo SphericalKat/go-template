@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/signal"
 	genapi "sample/api/gen"
+	"sample/middleware"
 	"sample/pkg/di"
 	"sample/utils"
 	"time"
@@ -62,8 +63,12 @@ func main() {
 		handleErr(err)
 	}
 
-	server, err := genapi.NewServer(handler, genapi.WithTracerProvider(tp))
-	if err != nil {
+	var server *genapi.Server
+	if server, err = genapi.NewServer(
+		handler,
+		genapi.WithTracerProvider(tp),
+		genapi.WithMiddleware(middleware.InfoRec()),
+	); err != nil {
 		handleErr(err)
 	}
 
