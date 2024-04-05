@@ -35,5 +35,5 @@ func GetStack(err *errors.Error) string {
 		}
 	}
 
-	return color.RedString("[error]") + " " + err.Error() + "\n" + stack
+	return " " + err.Error() + "\n" + stack
 }

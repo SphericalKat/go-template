@@ -36,7 +36,7 @@ func main() {
 	}
 
 	// ─── Configure Tracer Provider ────────────────────────────────────────
-	exporter, err := otlptracehttp.New(ctx, otlptracehttp.WithEndpoint("jaeger:4318"), otlptracehttp.WithInsecure())
+	exporter, err := otlptracehttp.New(ctx, otlptracehttp.WithEndpoint("localhost:4318"), otlptracehttp.WithInsecure())
 	if err != nil {
 		handleErr(err)
 	}

@@ -44,8 +44,7 @@ func ProvideConfig() (*Config, error) {
 		}
 
 		if err := k.Load(file.Provider(".env"), dotenv.Parser()); err != nil {
-			slog.Info("unable to find env file", "err", err)
-			slog.Info("falling back to env variables")
+			// nothing to do if .env is not present
 		}
 
 		if err := k.Load(env.Provider("", ".", nil), nil); err != nil {
