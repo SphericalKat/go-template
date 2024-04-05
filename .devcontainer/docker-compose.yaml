@@ -24,7 +24,9 @@ services:
     image: docker.io/redis:alpine
 
   devenv:
-    image: docker.io/sphericalkat/go-devcontainer:latest
+    build:
+      context: .
+      dockerfile: ../docker/development/Dockerfile
     command: sleep infinity
     environment:
       - SHELL=/bin/bash

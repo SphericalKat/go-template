@@ -13,6 +13,6 @@ cd ${script_dir}/../
 for file in `find . -maxdepth 2 -name index.yaml -type f`; do
     site=$(dirname $file | sed -e 's/\.\///g')
     pushd $site
-        swagger-cli validate index.yaml
+        redocly lint --extends=minimal openapi.yml
     popd
 done

@@ -68,4 +68,9 @@ RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | 
     && echo 'export NVM_DIR="/home/goalist/.nvm"' >>~/.zshrc \
     && echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.zshrc 
 
+# Install project dependencies
+RUN npm i -g @redocly/cli
+RUN go install -v github.com/ogen-go/ogen/cmd/ogen@latest
+RUN go install github.com/google/wire/cmd/wire@latest
+
 EXPOSE 8000-8005 9000-9005

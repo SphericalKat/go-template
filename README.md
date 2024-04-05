@@ -9,7 +9,7 @@ This repository contains the code for our fully featured go-template, from which
 
 ## Requirements
 - [Go >= 1.21.5](https://go.dev/doc/install)
-- [swagger-cli](https://www.npmjs.com/package/swagger-cli)
+- [redocly](https://github.com/Redocly/redocly-cli)
 - [ent](https://entgo.io/docs/getting-started)
 - [ogen](https://ogen.dev/docs/intro)
 - [wire](https://github.com/google/wire)
