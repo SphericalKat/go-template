@@ -37,3 +37,18 @@ You can also click the green button in the bottom left corner to access the remo
 > [!TIP]
 > The repository will be mounted and available in the container.
 
+### Running without vscode
+If you prefer not to use VSCode, you can still run the container manually to get a shell into the container. 
+First, install the devcontainer CLI
+```bash
+npm install -g devcontainer-cli
+```
+Then, run the following command in the root of the repository.
+```bash
+devcontainer up --workspace-folder .
+```
+
+Finally, to get a shell in the container, run the following command.
+```bash
+devcontainer exec --workspace-folder . bash # (or zsh, depending on your shell preference)
+```
