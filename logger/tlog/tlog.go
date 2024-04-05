@@ -10,33 +10,39 @@ import (
 	"go.opentelemetry.io/otel/trace"
 )
 
-func addContextInfo(ctx context.Context, attrs map[string]any) {
+func addContextInfo(ctx context.Context, attrs *map[string]any) {
+	if attrs == nil {
+		return
+	}
+
 	for _, key := range logger.AllContextKeys {
 		if val := logger.GetInfo(ctx, key); val != nil {
-			attrs[string(key)] = *val
+			(*attrs)[string(key)] = *val
 		}
 	}
 }
 
-func addToSpan(ctx context.Context, msg string, severity string, attrs map[string]any) {
+func addToSpan(ctx context.Context, msg string, severity string, attrs *map[string]any) {
 	var otelAttrs []attribute.KeyValue
 	otelAttrs = append(otelAttrs, attribute.String("severity", severity))
 
-	for k, v := range attrs {
-		switch value := v.(type) {
-		case string:
-			otelAttrs = append(otelAttrs, attribute.String(k, value))
-		case bool:
-			otelAttrs = append(otelAttrs, attribute.Bool(k, value))
-		case int:
-			otelAttrs = append(otelAttrs, attribute.Int(k, value))
-		case int64:
-			otelAttrs = append(otelAttrs, attribute.Int64(k, value))
-		case float64:
-			otelAttrs = append(otelAttrs, attribute.Float64(k, value))
-		default:
-			slog.Debug(fmt.Sprintf("unhandled attribute type for key '%s', using string representation", k))
-			otelAttrs = append(otelAttrs, attribute.String(k, fmt.Sprint(value)))
+	if attrs != nil {
+		for k, v := range *attrs {
+			switch value := v.(type) {
+			case string:
+				otelAttrs = append(otelAttrs, attribute.String(k, value))
+			case bool:
+				otelAttrs = append(otelAttrs, attribute.Bool(k, value))
+			case int:
+				otelAttrs = append(otelAttrs, attribute.Int(k, value))
+			case int64:
+				otelAttrs = append(otelAttrs, attribute.Int64(k, value))
+			case float64:
+				otelAttrs = append(otelAttrs, attribute.Float64(k, value))
+			default:
+				slog.Debug(fmt.Sprintf("unhandled attribute type for key '%s', using string representation", k))
+				otelAttrs = append(otelAttrs, attribute.String(k, fmt.Sprint(value)))
+			}
 		}
 	}
 
@@ -48,33 +54,37 @@ func addToSpan(ctx context.Context, msg string, severity string, attrs map[strin
 
 // slog takes attributes as a list like [a, b, c, d] where
 // a and c are keys and b and d are the values and so on
-func makePairArray(attrs map[string]any) []any {
-	kvPairs := make([]any, 0, len(attrs)*2)
-	for k, v := range attrs {
+func makePairArray(attrs *map[string]any) []any {
+	if attrs == nil {
+		return []any{}
+	}
+
+	kvPairs := make([]any, 0, len(*attrs)*2)
+	for k, v := range *attrs {
 		kvPairs = append(kvPairs, k, v)
 	}
 	return kvPairs
 }
 
-func Debug(ctx context.Context, msg string, attrs map[string]any) {
+func Debug(ctx context.Context, msg string, attrs *map[string]any) {
 	addContextInfo(ctx, attrs)
 	addToSpan(ctx, msg, "debug", attrs)
 	slog.Debug(msg, makePairArray(attrs)...)
 }
 
-func Info(ctx context.Context, msg string, attrs map[string]any) {
+func Info(ctx context.Context, msg string, attrs *map[string]any) {
 	addContextInfo(ctx, attrs)
 	addToSpan(ctx, msg, "info", attrs)
 	slog.Info(msg, makePairArray(attrs)...)
 }
 
-func Warn(ctx context.Context, msg string, attrs map[string]any) {
+func Warn(ctx context.Context, msg string, attrs *map[string]any) {
 	addContextInfo(ctx, attrs)
 	addToSpan(ctx, msg, "warn", attrs)
 	slog.Warn(msg, makePairArray(attrs)...)
 }
 
-func Error(ctx context.Context, msg string, attrs map[string]any) {
+func Error(ctx context.Context, msg string, attrs *map[string]any) {
 	addContextInfo(ctx, attrs)
 	addToSpan(ctx, msg, "error", attrs)
 	slog.Error(msg, makePairArray(attrs)...)

@@ -8,7 +8,7 @@ import (
 	"github.com/go-errors/errors"
 )
 
-func PrintStack(err *errors.Error) string {
+func GetStack(err *errors.Error) string {
 	basePath := GetBasePath() + "/"
 	stack := ""
 

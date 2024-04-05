@@ -58,16 +58,23 @@ func main() {
 	)
 
 	// ─── start http server ────────────────────────────────────────────────
-	handler, err := di.InjectHandlers()
+	handlers, err := di.InjectHandlers()
 	if err != nil {
 		handleErr(err)
 	}
 
 	var server *genapi.Server
 	if server, err = genapi.NewServer(
-		handler,
+		handlers,
+
+		// tracer
 		genapi.WithTracerProvider(tp),
-		genapi.WithMiddleware(middleware.InfoRec()),
+
+		// middleware
+		genapi.WithMiddleware(
+			middleware.PanicCapture(),
+			middleware.InfoRec(),
+		),
 	); err != nil {
 		handleErr(err)
 	}
@@ -100,6 +107,6 @@ func main() {
 
 func handleErr(err error) {
 	tperr := errors.Wrap(err, 0)
-	fmt.Printf("%s", utils.PrintStack(tperr))
+	fmt.Printf("%s", utils.GetStack(tperr))
 	panic(err)
 }

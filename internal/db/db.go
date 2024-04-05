@@ -18,7 +18,7 @@ func ProvideDB(conf *config.Config) (*ent.Client, error) {
 	}
 
 	switch conf.DatabaseDriver {
-	case "sqlite":
+	case "sqlite3":
 		db, err = newSqliteDB(conf)
 	default:
 		err = fmt.Errorf("unknown db type: %s", conf.DatabaseDriver)
