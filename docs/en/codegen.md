@@ -5,21 +5,21 @@ The following commands can be used to generate the required code.
 
 ### Generate the swagger documentation
 ```bash
-bash bin/apigen.sh
+just openapi
 ```
 
 ### Generate the ent schema
 ```bash
-bash bin/dbgen.sh
+just ent
 ```
 
 ### Generate dependency injection
 ```bash
-bash bin/gogen.sh
+just wire
 ```
 
 ### Generate all
 All the above codegen commands can be combined into one:
 ```bash
-bash bin/allgen.sh
+just
 ```

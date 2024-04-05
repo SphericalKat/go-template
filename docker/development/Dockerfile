@@ -72,5 +72,8 @@ RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | 
 RUN npm i -g @redocly/cli
 RUN go install -v github.com/ogen-go/ogen/cmd/ogen@latest
 RUN go install github.com/google/wire/cmd/wire@latest
+RUN curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to ~/bin
+RUN echo 'export PATH="$PATH:$HOME/bin"' >>~/.zshrc \
+    && echo 'export PATH="$PATH:$HOME/bin"' >>~/.bashrc
 
 EXPOSE 8000-8005 9000-9005

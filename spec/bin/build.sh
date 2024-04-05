@@ -1,10 +1,8 @@
 #!/bin/bash
-# TODO: consider rewrite
 
 # Params
 set -eu
 script_dir=$(cd $(dirname $0); pwd)
-
 
 # Execution
 cd ${script_dir}/../
