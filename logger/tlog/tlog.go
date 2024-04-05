@@ -10,13 +10,12 @@ import (
 	"go.opentelemetry.io/otel/trace"
 )
 
-func addContextInfo(ctx context.Context, attrs map[string]any) map[string]any {
+func addContextInfo(ctx context.Context, attrs map[string]any) {
 	for _, key := range logger.AllContextKeys {
 		if val := logger.GetInfo(ctx, key); val != nil {
 			attrs[string(key)] = *val
 		}
 	}
-	return attrs
 }
 
 func addToSpan(ctx context.Context, msg string, severity string, attrs map[string]any) {
@@ -50,7 +49,7 @@ func addToSpan(ctx context.Context, msg string, severity string, attrs map[strin
 // slog takes attributes as a list like [a, b, c, d] where
 // a and c are keys and b and d are the values and so on
 func makePairArray(attrs map[string]any) []any {
-	var kvPairs []any
+	kvPairs := make([]any, 0, len(attrs)*2)
 	for k, v := range attrs {
 		kvPairs = append(kvPairs, k, v)
 	}

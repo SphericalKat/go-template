@@ -93,6 +93,7 @@ func main() {
 	defer cancel()
 	if err := httpServer.Shutdown(ctx); err != nil {
 		slog.Error("shutdown err", "err", err)
+		//nolint:gocritic
 		os.Exit(1)
 	}
 }

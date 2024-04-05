@@ -67,7 +67,7 @@ func main() {
 	}
 
 	// Write the formatted source code back to the file
-	err = os.WriteFile(filePath, formattedSrc, 0666)
+	err = os.WriteFile(filePath, formattedSrc, 0600)
 	if err != nil {
 		panic(err)
 	}
