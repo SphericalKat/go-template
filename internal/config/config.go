@@ -38,7 +38,11 @@ var defaultConfigProvider = confmap.Provider(map[string]any{
 
 func ProvideConfig() (*Config, error) {
 	if Conf == nil {
-		k.Load(defaultConfigProvider, nil)
+		err := k.Load(defaultConfigProvider, nil)
+		if err != nil {
+			slog.Error("error loading default config", "err", err)
+			os.Exit(1)
+		}
 
 		if err := k.Load(file.Provider(".env"), dotenv.Parser()); err != nil {
 			slog.Info("unable to find env file", "err", err)
@@ -51,7 +55,7 @@ func ProvideConfig() (*Config, error) {
 		}
 
 		Conf = &Config{}
-		err := k.Unmarshal("", Conf)
+		err = k.Unmarshal("", Conf)
 		if err != nil {
 			slog.Error("error loading config", "err", err)
 			os.Exit(1)

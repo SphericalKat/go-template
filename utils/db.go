@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"sample/ent"
+
+	"golang.org/x/exp/slog"
 )
 
 // https://entgo.io/docs/transactions/#best-practices
@@ -15,7 +17,10 @@ func WithTx(ctx context.Context, client *ent.Client, fn func(tx *ent.Tx) error) 
 
 	defer func() {
 		if v := recover(); v != nil {
-			tx.Rollback()
+			err := tx.Rollback()
+			if err != nil {
+				slog.Error("failed to rollback transaction")
+			}
 			panic(v)
 		}
 	}()
