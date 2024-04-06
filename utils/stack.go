@@ -22,16 +22,32 @@ func GetStack(err *errors.Error) string {
 	frameCount := len(frames)
 
 	for i, frame := range frames {
-		file := strings.Replace(frame.File, basePath, "", 1)
+		var file string
+		if strings.Contains(frame.File, basePath) {
+			file = strings.Replace(frame.File, basePath, "", 1)
+		} else {
+			file = color.BlackString(frame.File)
+		}
+
 		frameStr := fmt.Sprintf("%s%s%d", file, color.BlueString(":"), frame.LineNumber)
 
 		source, err := frame.SourceLine()
 		boldBlack := color.New(color.FgHiBlack, color.Bold).SprintFunc()
-		stack += boldBlack(fmt.Sprintf("%d: ", frameCount-i))
+		stack += boldBlack(fmt.Sprintf("%2d: ", frameCount-i))
 		if err != nil {
 			stack += fmt.Sprintf("%s\n", frameStr)
 		} else {
-			stack += fmt.Sprintf("%s\n    %s\n", frameStr, color.HiBlackString(source))
+			var arrow string
+			var fmtdSource string
+			if strings.Contains(frame.File, basePath) {
+				arrow = color.CyanString(">> ")
+				fmtdSource = source
+			} else {
+				arrow = color.BlackString("> ")
+				fmtdSource = color.BlackString(source)
+			}
+
+			stack += fmt.Sprintf("%s\n    %s%s\n", frameStr, arrow, fmtdSource)
 		}
 	}
 
