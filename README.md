@@ -4,7 +4,7 @@ This repository contains the code for our fully featured go-template, from which
 ## Features
 - **Logging**: Structured logging with [slog](https://pkg.go.dev/golang.org/x/exp/slog)
 - **Configuration**: Configuration management with [koanf](https://pkg.go.dev/github.com/knadh/koanf)
-- **HTTP Server**: HTTP server with [echo](https://pkg.go.dev/github.com/labstack/echo/v4)
+- **HTTP Server**: HTTP server with [net/http](https://pkg.go.dev/net/http)
 - **Database**: DB ORM with [ent](https://entgo.io)
 - **Task Runner**: Task runner with [just](https://just.systems)
 
