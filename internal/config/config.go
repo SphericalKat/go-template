@@ -43,9 +43,7 @@ func ProvideConfig() (*Config, error) {
 			os.Exit(1)
 		}
 
-		if err := k.Load(file.Provider(".env"), dotenv.Parser()); err != nil {
-			// nothing to do if .env is not present
-		}
+		_ = k.Load(file.Provider(".env"), dotenv.Parser())
 
 		if err := k.Load(env.Provider("", ".", nil), nil); err != nil {
 			slog.Error("error loading config", "err", err)
