@@ -258,7 +258,7 @@ func WriteSource(path string, source string) {
 		panic(fmt.Sprint("Error formatting code to write to '"+path+"':\n"+source+"\n", err))
 	}
 
-	err = os.WriteFile(path, []byte(formattedSource), 0644)
+	err = os.WriteFile(path, []byte(formattedSource), 0600)
 	if err != nil {
 		panic(fmt.Sprint("Error writing '"+path+"':", err))
 	}

@@ -19,7 +19,7 @@ func InjectHandlers() (*api.Handlers, error) {
 		domainProvider.RepositorySet,
 		domainProvider.ServiceSet,
 
-		db.ProvideDb,
+		db.ProvideDB,
 		config.ProvideConfig,
 	)
 
@@ -27,6 +27,6 @@ func InjectHandlers() (*api.Handlers, error) {
 }
 
 func InjectDb() (*ent.Client, error) {
-	wire.Build(config.ProvideConfig, db.ProvideDb)
+	wire.Build(config.ProvideConfig, db.ProvideDB)
 	return &ent.Client{}, nil
 }

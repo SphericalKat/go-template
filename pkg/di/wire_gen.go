@@ -23,7 +23,7 @@ func InjectHandlers() (*api.Handlers, error) {
 	if err != nil {
 		return nil, err
 	}
-	client, err := db.ProvideDb(configConfig)
+	client, err := db.ProvideDB(configConfig)
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +41,7 @@ func InjectDb() (*ent.Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	client, err := db.ProvideDb(configConfig)
+	client, err := db.ProvideDB(configConfig)
 	if err != nil {
 		return nil, err
 	}

@@ -12,14 +12,14 @@ var (
 	err error
 )
 
-func ProvideDb(conf *config.Config) (*ent.Client, error) {
+func ProvideDB(conf *config.Config) (*ent.Client, error) {
 	if db != nil {
 		return db, nil
 	}
 
 	switch conf.DatabaseDriver {
-	case "sqlite":
-		db, err = newSqliteDb(conf)
+	case "sqlite3":
+		db, err = newSqliteDB(conf)
 	default:
 		err = fmt.Errorf("unknown db type: %s", conf.DatabaseDriver)
 	}

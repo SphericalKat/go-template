@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"sample/ent"
 
+	"github.com/go-errors/errors"
 	"golang.org/x/exp/slog"
 )
 
@@ -12,7 +13,7 @@ import (
 func WithTx(ctx context.Context, client *ent.Client, fn func(tx *ent.Tx) error) error {
 	tx, err := client.Tx(ctx)
 	if err != nil {
-		return err
+		return errors.Wrap(err, 0)
 	}
 
 	defer func() {

@@ -36,7 +36,7 @@ func main() {
 	}
 
 	// ─── Configure Tracer Provider ────────────────────────────────────────
-	exporter, err := otlptracehttp.New(ctx, otlptracehttp.WithEndpoint("jaeger:4318"), otlptracehttp.WithInsecure())
+	exporter, err := otlptracehttp.New(ctx, otlptracehttp.WithEndpoint("localhost:4318"), otlptracehttp.WithInsecure())
 	if err != nil {
 		handleErr(err)
 	}
@@ -58,16 +58,23 @@ func main() {
 	)
 
 	// ─── start http server ────────────────────────────────────────────────
-	handler, err := di.InjectHandlers()
+	handlers, err := di.InjectHandlers()
 	if err != nil {
 		handleErr(err)
 	}
 
 	var server *genapi.Server
 	if server, err = genapi.NewServer(
-		handler,
+		handlers,
+
+		// tracer
 		genapi.WithTracerProvider(tp),
-		genapi.WithMiddleware(middleware.InfoRec()),
+
+		// middleware
+		genapi.WithMiddleware(
+			middleware.PanicCapture(),
+			middleware.InfoRec(),
+		),
 	); err != nil {
 		handleErr(err)
 	}
@@ -93,12 +100,13 @@ func main() {
 	defer cancel()
 	if err := httpServer.Shutdown(ctx); err != nil {
 		slog.Error("shutdown err", "err", err)
+		//nolint:gocritic
 		os.Exit(1)
 	}
 }
 
 func handleErr(err error) {
 	tperr := errors.Wrap(err, 0)
-	fmt.Printf("%s", utils.PrintStack(tperr))
+	fmt.Printf("%s", utils.GetStack(tperr, true))
 	panic(err)
 }
