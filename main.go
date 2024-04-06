@@ -107,6 +107,6 @@ func main() {
 
 func handleErr(err error) {
 	tperr := errors.Wrap(err, 0)
-	fmt.Printf("%s", utils.GetStack(tperr))
+	fmt.Printf("%s", utils.GetStack(tperr, true))
 	panic(err)
 }

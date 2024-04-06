@@ -4,27 +4,16 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
-	"sample/logger"
+	"sample/utils"
 
+	"github.com/go-errors/errors"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/trace"
 )
 
-func addContextInfo(ctx context.Context, attrs *map[string]any) {
-	if attrs == nil {
-		return
-	}
-
-	for _, key := range logger.AllContextKeys {
-		if val := logger.GetInfo(ctx, key); val != nil {
-			(*attrs)[string(key)] = *val
-		}
-	}
-}
-
 func addToSpan(ctx context.Context, msg string, severity string, attrs *map[string]any) {
 	var otelAttrs []attribute.KeyValue
-	otelAttrs = append(otelAttrs, attribute.String("severity", severity))
+	otelAttrs = append(otelAttrs, attribute.String("message", msg))
 
 	if attrs != nil {
 		for k, v := range *attrs {
@@ -48,7 +37,7 @@ func addToSpan(ctx context.Context, msg string, severity string, attrs *map[stri
 
 	span := trace.SpanFromContext(ctx)
 	if span != nil && span.SpanContext().IsValid() {
-		span.AddEvent(msg, trace.WithAttributes(otelAttrs...))
+		span.AddEvent(severity, trace.WithAttributes(otelAttrs...))
 	}
 }
 
@@ -67,25 +56,32 @@ func makePairArray(attrs *map[string]any) []any {
 }
 
 func Debug(ctx context.Context, msg string, attrs *map[string]any) {
-	addContextInfo(ctx, attrs)
 	addToSpan(ctx, msg, "debug", attrs)
 	slog.Debug(msg, makePairArray(attrs)...)
 }
 
 func Info(ctx context.Context, msg string, attrs *map[string]any) {
-	addContextInfo(ctx, attrs)
 	addToSpan(ctx, msg, "info", attrs)
 	slog.Info(msg, makePairArray(attrs)...)
 }
 
 func Warn(ctx context.Context, msg string, attrs *map[string]any) {
-	addContextInfo(ctx, attrs)
 	addToSpan(ctx, msg, "warn", attrs)
 	slog.Warn(msg, makePairArray(attrs)...)
 }
 
 func Error(ctx context.Context, msg string, attrs *map[string]any) {
-	addContextInfo(ctx, attrs)
 	addToSpan(ctx, msg, "error", attrs)
 	slog.Error(msg, makePairArray(attrs)...)
+}
+
+func Exception(ctx context.Context, err error) {
+	attrs := make(map[string]any)
+	stack := utils.GetStack(errors.Wrap(err, 0), false)
+	coloredStack := utils.GetStack(errors.Wrap(err, 0), true)
+	addToSpan(ctx, "exception", "error", &map[string]any{
+		"exception.message": err.Error(),
+		"stack":             stack,
+	})
+	slog.Error(coloredStack, makePairArray(&attrs)...)
 }

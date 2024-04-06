@@ -8,9 +8,21 @@ import (
 	"github.com/go-errors/errors"
 )
 
-func GetStack(err *errors.Error) string {
+func GetStack(err *errors.Error, colors bool) string {
 	basePath := GetBasePath() + "/"
 	stack := ""
+
+	boldBlack := color.New(color.FgHiBlack, color.Bold)
+	blue := color.New(color.FgBlue)
+	black := color.New(color.FgBlack)
+	cyan := color.New(color.FgCyan)
+
+	if !colors {
+		boldBlack.DisableColor()
+		blue.DisableColor()
+		black.DisableColor()
+		cyan.DisableColor()
+	}
 
 	allFrames := err.StackFrames()
 	frames := make([]errors.StackFrame, 0, len(allFrames))
@@ -26,25 +38,24 @@ func GetStack(err *errors.Error) string {
 		if strings.Contains(frame.File, basePath) {
 			file = strings.Replace(frame.File, basePath, "", 1)
 		} else {
-			file = color.BlackString(frame.File)
+			file = black.Sprint(frame.File)
 		}
 
-		frameStr := fmt.Sprintf("%s%s%d", file, color.BlueString(":"), frame.LineNumber)
+		frameStr := fmt.Sprintf("%s%s%d", file, blue.Sprint(":"), frame.LineNumber)
 
 		source, err := frame.SourceLine()
-		boldBlack := color.New(color.FgHiBlack, color.Bold).SprintFunc()
-		stack += boldBlack(fmt.Sprintf("%2d: ", frameCount-i))
+		stack += boldBlack.Sprint(fmt.Sprintf("%2d: ", frameCount-i))
 		if err != nil {
 			stack += fmt.Sprintf("%s\n", frameStr)
 		} else {
 			var arrow string
 			var fmtdSource string
 			if strings.Contains(frame.File, basePath) {
-				arrow = color.CyanString(">> ")
+				arrow = cyan.Sprint(">> ")
 				fmtdSource = source
 			} else {
-				arrow = color.BlackString("> ")
-				fmtdSource = color.BlackString(source)
+				arrow = black.Sprint("> ")
+				fmtdSource = black.Sprint(source)
 			}
 
 			stack += fmt.Sprintf("%s\n    %s%s\n", frameStr, arrow, fmtdSource)
