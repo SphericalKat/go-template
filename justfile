@@ -1,6 +1,9 @@
 all:
     bash ./bin/allgen.sh
 
+providers:
+    bash ./bin/providergen.sh
+
 ent:
     bash ./bin/dbgen.sh
 
