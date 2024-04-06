@@ -2,8 +2,7 @@
 package di
 
 import (
-	"sample/pkg/domain/service"
-
+	"github.com/goalistdeveloper/go-template/pkg/domain/service"
 	"github.com/google/wire"
 )
 

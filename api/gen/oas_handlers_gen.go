@@ -59,7 +59,7 @@ func (s *Server) handleGetCurrentCountRequest(args [0]string, argsEscaped bool, 
 		err error
 	)
 
-	var response *CounterResponse
+	var response *Counter
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
@@ -74,7 +74,7 @@ func (s *Server) handleGetCurrentCountRequest(args [0]string, argsEscaped bool, 
 		type (
 			Request  = struct{}
 			Params   = struct{}
-			Response = *CounterResponse
+			Response = *Counter
 		)
 		response, err = middleware.HookMiddleware[
 			Request,
@@ -165,7 +165,7 @@ func (s *Server) handleIncrementCountRequest(args [0]string, argsEscaped bool, w
 		}
 	}()
 
-	var response *CounterResponse
+	var response *Counter
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
@@ -178,9 +178,9 @@ func (s *Server) handleIncrementCountRequest(args [0]string, argsEscaped bool, w
 		}
 
 		type (
-			Request  = OptIncrementRequest
+			Request  = OptIncrement
 			Params   = struct{}
-			Response = *CounterResponse
+			Response = *Counter
 		)
 		response, err = middleware.HookMiddleware[
 			Request,

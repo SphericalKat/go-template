@@ -3,14 +3,15 @@ package handler
 import (
 	"context"
 	"fmt"
-	genapi "sample/api/gen"
-	"sample/logger/tlog"
-	"sample/pkg/domain/service"
+
+	genapi "github.com/goalistdeveloper/go-template/api/gen"
+	"github.com/goalistdeveloper/go-template/logger/tlog"
+	"github.com/goalistdeveloper/go-template/pkg/domain/service"
 )
 
 type CounterHandler interface {
-	GetCurrentCount(ctx context.Context) (*genapi.CounterResponse, error)
-	IncrementCount(ctx context.Context, req genapi.OptIncrementRequest) (*genapi.CounterResponse, error)
+	GetCurrentCount(ctx context.Context) (*genapi.Counter, error)
+	IncrementCount(ctx context.Context, req genapi.OptIncrement) (*genapi.Counter, error)
 }
 
 type counterHandlerImpl struct {
@@ -18,7 +19,7 @@ type counterHandlerImpl struct {
 }
 
 // TODO: properly implement the two functions
-func (h *counterHandlerImpl) GetCurrentCount(ctx context.Context) (*genapi.CounterResponse, error) {
+func (h *counterHandlerImpl) GetCurrentCount(ctx context.Context) (*genapi.Counter, error) {
 	tlog.Info(ctx, "Testing logs in trace", &map[string]any{
 		"meaningOfLife": "42",
 	})
@@ -26,13 +27,13 @@ func (h *counterHandlerImpl) GetCurrentCount(ctx context.Context) (*genapi.Count
 	var a []string
 	fmt.Println(a[3])
 
-	return &genapi.CounterResponse{
+	return &genapi.Counter{
 		Count: 0,
 	}, nil
 }
 
-func (h *counterHandlerImpl) IncrementCount(ctx context.Context, req genapi.OptIncrementRequest) (*genapi.CounterResponse, error) {
-	return &genapi.CounterResponse{
+func (h *counterHandlerImpl) IncrementCount(ctx context.Context, req genapi.OptIncrement) (*genapi.Counter, error) {
+	return &genapi.Counter{
 		Count: 1,
 	}, nil
 }

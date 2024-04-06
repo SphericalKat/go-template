@@ -1,7 +1,7 @@
 package service
 
 import (
-	"sample/pkg/domain/repository"
+	"github.com/goalistdeveloper/go-template/pkg/domain/repository"
 )
 
 type CounterService interface {

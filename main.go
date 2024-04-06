@@ -7,11 +7,12 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	genapi "sample/api/gen"
-	"sample/middleware"
-	"sample/pkg/di"
-	"sample/utils"
 	"time"
+
+	genapi "github.com/goalistdeveloper/go-template/api/gen"
+	"github.com/goalistdeveloper/go-template/middleware"
+	"github.com/goalistdeveloper/go-template/pkg/di"
+	"github.com/goalistdeveloper/go-template/utils"
 
 	"github.com/fatih/color"
 	"github.com/go-errors/errors"

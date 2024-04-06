@@ -6,10 +6,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"sample/ent/counter"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/goalistdeveloper/go-template/ent/counter"
 )
 
 // CounterCreate is the builder for creating a Counter entity.

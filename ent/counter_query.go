@@ -6,12 +6,12 @@ import (
 	"context"
 	"fmt"
 	"math"
-	"sample/ent/counter"
-	"sample/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/goalistdeveloper/go-template/ent/counter"
+	"github.com/goalistdeveloper/go-template/ent/predicate"
 )
 
 // CounterQuery is the builder for querying Counter entities.

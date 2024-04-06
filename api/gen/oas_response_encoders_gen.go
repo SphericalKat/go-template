@@ -11,7 +11,7 @@ import (
 	"go.opentelemetry.io/otel/trace"
 )
 
-func encodeGetCurrentCountResponse(response *CounterResponse, w http.ResponseWriter, span trace.Span) error {
+func encodeGetCurrentCountResponse(response *Counter, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
 	span.SetStatus(codes.Ok, http.StatusText(200))
@@ -25,7 +25,7 @@ func encodeGetCurrentCountResponse(response *CounterResponse, w http.ResponseWri
 	return nil
 }
 
-func encodeIncrementCountResponse(response *CounterResponse, w http.ResponseWriter, span trace.Span) error {
+func encodeIncrementCountResponse(response *Counter, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
 	span.SetStatus(codes.Ok, http.StatusText(200))

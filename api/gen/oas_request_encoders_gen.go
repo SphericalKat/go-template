@@ -12,7 +12,7 @@ import (
 )
 
 func encodeIncrementCountRequest(
-	req OptIncrementRequest,
+	req OptIncrement,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

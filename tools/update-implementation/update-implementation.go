@@ -1,3 +1,5 @@
+//go:build buildtools
+
 package main
 
 import (

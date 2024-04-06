@@ -4,7 +4,8 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
-	"sample/utils"
+
+	"github.com/goalistdeveloper/go-template/utils"
 
 	"github.com/go-errors/errors"
 	"go.opentelemetry.io/otel/attribute"

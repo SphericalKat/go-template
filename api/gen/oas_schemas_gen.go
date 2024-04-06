@@ -2,70 +2,70 @@
 
 package genapi
 
-// Ref: #/components/schemas/CounterResponse
-type CounterResponse struct {
+// Ref: #/components/schemas/counter
+type Counter struct {
 	// Ok.
 	Count float64 `json:"count"`
 }
 
 // GetCount returns the value of Count.
-func (s *CounterResponse) GetCount() float64 {
+func (s *Counter) GetCount() float64 {
 	return s.Count
 }
 
 // SetCount sets the value of Count.
-func (s *CounterResponse) SetCount(val float64) {
+func (s *Counter) SetCount(val float64) {
 	s.Count = val
 }
 
-// Ref: #/components/schemas/IncrementRequest
-type IncrementRequest struct {
+// Ref: #/components/schemas/increment
+type Increment struct {
 	// An optional amount to increment by.
 	Amount OptInt `json:"amount"`
 }
 
 // GetAmount returns the value of Amount.
-func (s *IncrementRequest) GetAmount() OptInt {
+func (s *Increment) GetAmount() OptInt {
 	return s.Amount
 }
 
 // SetAmount sets the value of Amount.
-func (s *IncrementRequest) SetAmount(val OptInt) {
+func (s *Increment) SetAmount(val OptInt) {
 	s.Amount = val
 }
 
-// NewOptIncrementRequest returns new OptIncrementRequest with value set to v.
-func NewOptIncrementRequest(v IncrementRequest) OptIncrementRequest {
-	return OptIncrementRequest{
+// NewOptIncrement returns new OptIncrement with value set to v.
+func NewOptIncrement(v Increment) OptIncrement {
+	return OptIncrement{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptIncrementRequest is optional IncrementRequest.
-type OptIncrementRequest struct {
-	Value IncrementRequest
+// OptIncrement is optional Increment.
+type OptIncrement struct {
+	Value Increment
 	Set   bool
 }
 
-// IsSet returns true if OptIncrementRequest was set.
-func (o OptIncrementRequest) IsSet() bool { return o.Set }
+// IsSet returns true if OptIncrement was set.
+func (o OptIncrement) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptIncrementRequest) Reset() {
-	var v IncrementRequest
+func (o *OptIncrement) Reset() {
+	var v Increment
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptIncrementRequest) SetTo(v IncrementRequest) {
+func (o *OptIncrement) SetTo(v Increment) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptIncrementRequest) Get() (v IncrementRequest, ok bool) {
+func (o OptIncrement) Get() (v Increment, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -73,7 +73,7 @@ func (o OptIncrementRequest) Get() (v IncrementRequest, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptIncrementRequest) Or(d IncrementRequest) IncrementRequest {
+func (o OptIncrement) Or(d Increment) Increment {
 	if v, ok := o.Get(); ok {
 		return v
 	}

@@ -4,13 +4,13 @@ package enttest
 
 import (
 	"context"
-	"sample/ent"
-	// required by schema hooks.
-	_ "sample/ent/runtime"
 
-	"sample/ent/migrate"
+	"github.com/goalistdeveloper/go-template/ent"
+	// required by schema hooks.
+	_ "github.com/goalistdeveloper/go-template/ent/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
+	"github.com/goalistdeveloper/go-template/ent/migrate"
 )
 
 type (

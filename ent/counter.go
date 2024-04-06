@@ -4,11 +4,11 @@ package ent
 
 import (
 	"fmt"
-	"sample/ent/counter"
 	"strings"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
+	"github.com/goalistdeveloper/go-template/ent/counter"
 )
 
 // Counter is the model entity for the Counter schema.

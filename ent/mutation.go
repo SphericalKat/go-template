@@ -6,12 +6,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"sample/ent/counter"
-	"sample/ent/predicate"
 	"sync"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
+	"github.com/goalistdeveloper/go-template/ent/counter"
+	"github.com/goalistdeveloper/go-template/ent/predicate"
 )
 
 const (

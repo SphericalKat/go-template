@@ -3,8 +3,9 @@ package middleware
 import (
 	"context"
 	"encoding/json"
-	"sample/logger"
-	"sample/logger/tlog"
+
+	"github.com/goalistdeveloper/go-template/logger"
+	"github.com/goalistdeveloper/go-template/logger/tlog"
 
 	ogenmw "github.com/ogen-go/ogen/middleware"
 )

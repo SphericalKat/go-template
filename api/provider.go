@@ -2,8 +2,7 @@
 package api
 
 import (
-	"sample/api/handler"
-
+	"github.com/goalistdeveloper/go-template/api/handler"
 	"github.com/google/wire"
 )
 

@@ -3,7 +3,8 @@ package utils
 import (
 	"context"
 	"fmt"
-	"sample/ent"
+
+	"github.com/goalistdeveloper/go-template/ent"
 
 	"github.com/go-errors/errors"
 	"golang.org/x/exp/slog"

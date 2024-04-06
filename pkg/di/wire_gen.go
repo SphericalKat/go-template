@@ -7,13 +7,13 @@
 package di
 
 import (
-	"sample/api"
-	"sample/api/handler"
-	"sample/ent"
-	"sample/internal/config"
-	"sample/internal/db"
-	"sample/pkg/domain/repository"
-	"sample/pkg/domain/service"
+	"github.com/goalistdeveloper/go-template/api"
+	"github.com/goalistdeveloper/go-template/api/handler"
+	"github.com/goalistdeveloper/go-template/ent"
+	"github.com/goalistdeveloper/go-template/internal/config"
+	"github.com/goalistdeveloper/go-template/internal/db"
+	"github.com/goalistdeveloper/go-template/pkg/domain/repository"
+	"github.com/goalistdeveloper/go-template/pkg/domain/service"
 )
 
 // Injectors from wire.go:

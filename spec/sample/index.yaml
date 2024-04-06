@@ -1,8 +1,8 @@
 openapi: "3.0.3"
 info:
-  description: "sample"
+  description: "github.com/goalistdeveloper/go-template"
   version: "1.0.0"
-  title: "sample"
+  title: "github.com/goalistdeveloper/go-template"
 servers:
   - url: "http://localhost:9000"
     variables:

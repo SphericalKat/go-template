@@ -5,7 +5,8 @@ package hook
 import (
 	"context"
 	"fmt"
-	"sample/ent"
+
+	"github.com/goalistdeveloper/go-template/ent"
 )
 
 // The CounterFunc type is an adapter to allow the use of ordinary

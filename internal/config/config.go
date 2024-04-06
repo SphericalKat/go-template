@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
-	"sample/utils"
 	"slices"
 	"strings"
+
+	"github.com/goalistdeveloper/go-template/utils"
 
 	"github.com/knadh/koanf/parsers/dotenv"
 	"github.com/knadh/koanf/providers/confmap"

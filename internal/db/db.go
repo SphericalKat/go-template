@@ -3,8 +3,8 @@ package db
 import (
 	"fmt"
 
-	"sample/ent"
-	"sample/internal/config"
+	"github.com/goalistdeveloper/go-template/ent"
+	"github.com/goalistdeveloper/go-template/internal/config"
 )
 
 var (

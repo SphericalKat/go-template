@@ -3,9 +3,8 @@
 package counter
 
 import (
-	"sample/ent/predicate"
-
 	"entgo.io/ent/dialect/sql"
+	"github.com/goalistdeveloper/go-template/ent/predicate"
 )
 
 // ID filters vertices based on their ID field.

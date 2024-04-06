@@ -6,12 +6,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"sample/ent/counter"
-	"sample/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/goalistdeveloper/go-template/ent/counter"
+	"github.com/goalistdeveloper/go-template/ent/predicate"
 )
 
 // CounterUpdate is the builder for updating Counter entities.

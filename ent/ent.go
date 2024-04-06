@@ -7,12 +7,12 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
-	"sample/ent/counter"
 	"sync"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"github.com/goalistdeveloper/go-template/ent/counter"
 )
 
 // ent aliases to avoid import conflicts in user's code.

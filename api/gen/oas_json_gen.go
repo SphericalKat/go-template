@@ -13,28 +13,28 @@ import (
 )
 
 // Encode implements json.Marshaler.
-func (s *CounterResponse) Encode(e *jx.Encoder) {
+func (s *Counter) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *CounterResponse) encodeFields(e *jx.Encoder) {
+func (s *Counter) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("count")
 		e.Float64(s.Count)
 	}
 }
 
-var jsonFieldsNameOfCounterResponse = [1]string{
+var jsonFieldsNameOfCounter = [1]string{
 	0: "count",
 }
 
-// Decode decodes CounterResponse from json.
-func (s *CounterResponse) Decode(d *jx.Decoder) error {
+// Decode decodes Counter from json.
+func (s *Counter) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode CounterResponse to nil")
+		return errors.New("invalid: unable to decode Counter to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -57,7 +57,7 @@ func (s *CounterResponse) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode CounterResponse")
+		return errors.Wrap(err, "decode Counter")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -74,8 +74,8 @@ func (s *CounterResponse) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfCounterResponse) {
-					name = jsonFieldsNameOfCounterResponse[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfCounter) {
+					name = jsonFieldsNameOfCounter[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -96,27 +96,27 @@ func (s *CounterResponse) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *CounterResponse) MarshalJSON() ([]byte, error) {
+func (s *Counter) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *CounterResponse) UnmarshalJSON(data []byte) error {
+func (s *Counter) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *IncrementRequest) Encode(e *jx.Encoder) {
+func (s *Increment) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *IncrementRequest) encodeFields(e *jx.Encoder) {
+func (s *Increment) encodeFields(e *jx.Encoder) {
 	{
 		if s.Amount.Set {
 			e.FieldStart("amount")
@@ -125,14 +125,14 @@ func (s *IncrementRequest) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfIncrementRequest = [1]string{
+var jsonFieldsNameOfIncrement = [1]string{
 	0: "amount",
 }
 
-// Decode decodes IncrementRequest from json.
-func (s *IncrementRequest) Decode(d *jx.Decoder) error {
+// Decode decodes Increment from json.
+func (s *Increment) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode IncrementRequest to nil")
+		return errors.New("invalid: unable to decode Increment to nil")
 	}
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
@@ -152,37 +152,37 @@ func (s *IncrementRequest) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode IncrementRequest")
+		return errors.Wrap(err, "decode Increment")
 	}
 
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *IncrementRequest) MarshalJSON() ([]byte, error) {
+func (s *Increment) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *IncrementRequest) UnmarshalJSON(data []byte) error {
+func (s *Increment) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes IncrementRequest as json.
-func (o OptIncrementRequest) Encode(e *jx.Encoder) {
+// Encode encodes Increment as json.
+func (o OptIncrement) Encode(e *jx.Encoder) {
 	if !o.Set {
 		return
 	}
 	o.Value.Encode(e)
 }
 
-// Decode decodes IncrementRequest from json.
-func (o *OptIncrementRequest) Decode(d *jx.Decoder) error {
+// Decode decodes Increment from json.
+func (o *OptIncrement) Decode(d *jx.Decoder) error {
 	if o == nil {
-		return errors.New("invalid: unable to decode OptIncrementRequest to nil")
+		return errors.New("invalid: unable to decode OptIncrement to nil")
 	}
 	o.Set = true
 	if err := o.Value.Decode(d); err != nil {
@@ -192,14 +192,14 @@ func (o *OptIncrementRequest) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s OptIncrementRequest) MarshalJSON() ([]byte, error) {
+func (s OptIncrement) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptIncrementRequest) UnmarshalJSON(data []byte) error {
+func (s *OptIncrement) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }

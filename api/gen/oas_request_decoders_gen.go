@@ -16,7 +16,7 @@ import (
 )
 
 func (s *Server) decodeIncrementCountRequest(r *http.Request) (
-	req OptIncrementRequest,
+	req OptIncrement,
 	close func() error,
 	rerr error,
 ) {
@@ -58,7 +58,7 @@ func (s *Server) decodeIncrementCountRequest(r *http.Request) (
 
 		d := jx.DecodeBytes(buf)
 
-		var request OptIncrementRequest
+		var request OptIncrement
 		if err := func() error {
 			request.Reset()
 			if err := request.Decode(d); err != nil {

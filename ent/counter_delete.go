@@ -4,12 +4,12 @@ package ent
 
 import (
 	"context"
-	"sample/ent/counter"
-	"sample/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/goalistdeveloper/go-template/ent/counter"
+	"github.com/goalistdeveloper/go-template/ent/predicate"
 )
 
 // CounterDelete is the builder for deleting a Counter entity.

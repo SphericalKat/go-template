@@ -18,7 +18,7 @@ var _ Handler = UnimplementedHandler{}
 // Get current counter value.
 //
 // GET /counter
-func (UnimplementedHandler) GetCurrentCount(ctx context.Context) (r *CounterResponse, _ error) {
+func (UnimplementedHandler) GetCurrentCount(ctx context.Context) (r *Counter, _ error) {
 	return r, ht.ErrNotImplemented
 }
 
@@ -27,6 +27,6 @@ func (UnimplementedHandler) GetCurrentCount(ctx context.Context) (r *CounterResp
 // Increment current counter value.
 //
 // POST /increment
-func (UnimplementedHandler) IncrementCount(ctx context.Context, req OptIncrementRequest) (r *CounterResponse, _ error) {
+func (UnimplementedHandler) IncrementCount(ctx context.Context, req OptIncrement) (r *Counter, _ error) {
 	return r, ht.ErrNotImplemented
 }

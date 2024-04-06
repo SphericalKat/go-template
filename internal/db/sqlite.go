@@ -3,9 +3,9 @@ package db
 import (
 	"log/slog"
 
-	"sample/ent"
+	"github.com/goalistdeveloper/go-template/ent"
 
-	"sample/internal/config"
+	"github.com/goalistdeveloper/go-template/internal/config"
 
 	// required by ent if using mysql
 	"github.com/go-errors/errors"

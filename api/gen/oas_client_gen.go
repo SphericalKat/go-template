@@ -27,13 +27,13 @@ type Invoker interface {
 	// Get current counter value.
 	//
 	// GET /counter
-	GetCurrentCount(ctx context.Context) (*CounterResponse, error)
+	GetCurrentCount(ctx context.Context) (*Counter, error)
 	// IncrementCount invokes incrementCount operation.
 	//
 	// Increment current counter value.
 	//
 	// POST /increment
-	IncrementCount(ctx context.Context, request OptIncrementRequest) (*CounterResponse, error)
+	IncrementCount(ctx context.Context, request OptIncrement) (*Counter, error)
 }
 
 // Client implements OAS client.
@@ -89,12 +89,12 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 // Get current counter value.
 //
 // GET /counter
-func (c *Client) GetCurrentCount(ctx context.Context) (*CounterResponse, error) {
+func (c *Client) GetCurrentCount(ctx context.Context) (*Counter, error) {
 	res, err := c.sendGetCurrentCount(ctx)
 	return res, err
 }
 
-func (c *Client) sendGetCurrentCount(ctx context.Context) (res *CounterResponse, err error) {
+func (c *Client) sendGetCurrentCount(ctx context.Context) (res *Counter, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getCurrentCount"),
 		semconv.HTTPMethodKey.String("GET"),
@@ -161,12 +161,12 @@ func (c *Client) sendGetCurrentCount(ctx context.Context) (res *CounterResponse,
 // Increment current counter value.
 //
 // POST /increment
-func (c *Client) IncrementCount(ctx context.Context, request OptIncrementRequest) (*CounterResponse, error) {
+func (c *Client) IncrementCount(ctx context.Context, request OptIncrement) (*Counter, error) {
 	res, err := c.sendIncrementCount(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendIncrementCount(ctx context.Context, request OptIncrementRequest) (res *CounterResponse, err error) {
+func (c *Client) sendIncrementCount(ctx context.Context, request OptIncrement) (res *Counter, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("incrementCount"),
 		semconv.HTTPMethodKey.String("POST"),

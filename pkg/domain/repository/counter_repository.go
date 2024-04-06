@@ -1,6 +1,6 @@
 package repository
 
-import "sample/ent"
+import "github.com/goalistdeveloper/go-template/ent"
 
 type CounterRepository interface {
 }

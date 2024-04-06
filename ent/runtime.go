@@ -3,8 +3,8 @@
 package ent
 
 import (
-	"sample/ent/counter"
-	"sample/ent/schema"
+	"github.com/goalistdeveloper/go-template/ent/counter"
+	"github.com/goalistdeveloper/go-template/ent/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

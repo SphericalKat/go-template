@@ -14,7 +14,7 @@ import (
 	"github.com/ogen-go/ogen/validate"
 )
 
-func decodeGetCurrentCountResponse(resp *http.Response) (res *CounterResponse, _ error) {
+func decodeGetCurrentCountResponse(resp *http.Response) (res *Counter, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -30,7 +30,7 @@ func decodeGetCurrentCountResponse(resp *http.Response) (res *CounterResponse, _
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response CounterResponse
+			var response Counter
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -64,7 +64,7 @@ func decodeGetCurrentCountResponse(resp *http.Response) (res *CounterResponse, _
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeIncrementCountResponse(resp *http.Response) (res *CounterResponse, _ error) {
+func decodeIncrementCountResponse(resp *http.Response) (res *Counter, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -80,7 +80,7 @@ func decodeIncrementCountResponse(resp *http.Response) (res *CounterResponse, _ 
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response CounterResponse
+			var response Counter
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err

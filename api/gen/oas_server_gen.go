@@ -13,13 +13,13 @@ type Handler interface {
 	// Get current counter value.
 	//
 	// GET /counter
-	GetCurrentCount(ctx context.Context) (*CounterResponse, error)
+	GetCurrentCount(ctx context.Context) (*Counter, error)
 	// IncrementCount implements incrementCount operation.
 	//
 	// Increment current counter value.
 	//
 	// POST /increment
-	IncrementCount(ctx context.Context, req OptIncrementRequest) (*CounterResponse, error)
+	IncrementCount(ctx context.Context, req OptIncrement) (*Counter, error)
 }
 
 // Server implements http server based on OpenAPI v3 specification and

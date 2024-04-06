@@ -4,11 +4,11 @@
 package di
 
 import (
-	"sample/api"
-	"sample/ent"
-	"sample/internal/config"
-	"sample/internal/db"
-	domainProvider "sample/pkg/domain/provider"
+	"github.com/goalistdeveloper/go-template/api"
+	"github.com/goalistdeveloper/go-template/ent"
+	"github.com/goalistdeveloper/go-template/internal/config"
+	"github.com/goalistdeveloper/go-template/internal/db"
+	domainProvider "github.com/goalistdeveloper/go-template/pkg/domain/provider"
 
 	"github.com/google/wire"
 )

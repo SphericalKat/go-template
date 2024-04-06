@@ -9,13 +9,12 @@ import (
 	"log"
 	"reflect"
 
-	"sample/ent/migrate"
-
-	"sample/ent/counter"
+	"github.com/goalistdeveloper/go-template/ent/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
+	"github.com/goalistdeveloper/go-template/ent/counter"
 )
 
 // Client is the client that holds all ent builders.

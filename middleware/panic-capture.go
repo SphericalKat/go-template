@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"sample/logger/tlog"
+	"github.com/goalistdeveloper/go-template/logger/tlog"
 
 	"github.com/go-errors/errors"
 	ogenmw "github.com/ogen-go/ogen/middleware"
