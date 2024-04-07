@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-	// Replace with your file path, interface name, and struct name
+	// TODO: accept these via vscode shortcut somehow
 	filePath := "pkg/domain/service/counter_service.go"
 	interfaceName := "CounterService"
 	structName := "counterServiceImpl"
