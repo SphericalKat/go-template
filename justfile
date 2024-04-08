@@ -4,6 +4,9 @@ all:
 mocks:
     bash ./bin/mockgen.sh
 
+lint:
+    bash ./bin/lint.sh
+
 providers:
     bash ./bin/providergen.sh
 
