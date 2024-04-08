@@ -4,6 +4,7 @@ package di
 import (
 	"github.com/goalistdeveloper/go-template/pkg/domain/service"
 	mock_service "github.com/goalistdeveloper/go-template/pkg/domain/service/mock"
+	"github.com/golang/mock/gomock"
 	"github.com/google/wire"
 )
 
@@ -18,13 +19,12 @@ var ServiceSet = wire.NewSet(
 	wire.Struct(new(Services), "*"),
 )
 
-type MockServices struct {
-	service.CounterService
-	mock_service.MockEmailService
+func ProvideMockEmailService(ctrl *gomock.Controller) service.EmailService {
+	return mock_service.NewMockEmailService(ctrl)
 }
 
 var MockServiceSet = wire.NewSet(
 	service.ProvideCounterService,
-	mock_service.NewMockEmailService,
-	wire.Struct(new(MockServices), "*"),
+	ProvideMockEmailService,
+	wire.Struct(new(Services), "*"),
 )

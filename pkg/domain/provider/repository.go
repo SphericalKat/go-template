@@ -15,11 +15,7 @@ var RepositorySet = wire.NewSet(
 	wire.Struct(new(Repositories), "*"),
 )
 
-type MockRepositories struct {
-	repository.CounterRepository
-}
-
 var MockRepositorySet = wire.NewSet(
 	repository.ProvideCounterRepository,
-	wire.Struct(new(MockRepositories), "*"),
+	wire.Struct(new(Repositories), "*"),
 )

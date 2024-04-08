@@ -12,8 +12,11 @@ import (
 	"github.com/goalistdeveloper/go-template/ent"
 	"github.com/goalistdeveloper/go-template/internal/config"
 	"github.com/goalistdeveloper/go-template/internal/db"
+	"github.com/goalistdeveloper/go-template/pkg/domain/provider"
 	"github.com/goalistdeveloper/go-template/pkg/domain/repository"
 	"github.com/goalistdeveloper/go-template/pkg/domain/service"
+	"github.com/golang/mock/gomock"
+	"github.com/google/wire"
 )
 
 // Injectors from wire.go:
@@ -28,7 +31,27 @@ func InjectHandlers() (*api.Handlers, error) {
 		return nil, err
 	}
 	counterRepository := repository.ProvideCounterRepository(client)
-	counterService := service.ProvideCounterService(counterRepository)
+	emailService := service.ProvideEmailService()
+	counterService := service.ProvideCounterService(counterRepository, emailService)
+	counterHandler := handler.ProvideCounterHandler(counterService)
+	handlers := &api.Handlers{
+		CounterHandler: counterHandler,
+	}
+	return handlers, nil
+}
+
+func InjectMockHandlers(ctrl *gomock.Controller) (*api.Handlers, error) {
+	configConfig, err := config.ProvideConfig()
+	if err != nil {
+		return nil, err
+	}
+	client, err := db.ProvideDB(configConfig)
+	if err != nil {
+		return nil, err
+	}
+	counterRepository := repository.ProvideCounterRepository(client)
+	emailService := di.ProvideMockEmailService(ctrl)
+	counterService := service.ProvideCounterService(counterRepository, emailService)
 	counterHandler := handler.ProvideCounterHandler(counterService)
 	handlers := &api.Handlers{
 		CounterHandler: counterHandler,
@@ -47,3 +70,11 @@ func InjectDb() (*ent.Client, error) {
 	}
 	return client, nil
 }
+
+// wire.go:
+
+var dbSet = wire.NewSet(db.ProvideDB, config.ProvideConfig)
+
+var concreteSet = wire.NewSet(api.HandlerSet, di.RepositorySet, di.ServiceSet)
+
+var mockSet = wire.NewSet(api.MockHandlerSet, di.MockRepositorySet, di.MockServiceSet)

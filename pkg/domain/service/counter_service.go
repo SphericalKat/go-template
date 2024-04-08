@@ -9,4 +9,5 @@ type CounterService interface {
 
 type counterServiceImpl struct {
 	counterRepository repository.CounterRepository
+	emailService      EmailService
 }

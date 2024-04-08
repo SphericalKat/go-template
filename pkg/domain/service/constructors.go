@@ -5,9 +5,12 @@ import "github.com/goalistdeveloper/go-template/pkg/domain/repository"
 
 func ProvideCounterService(
 	counterRepository repository.CounterRepository,
+	emailService EmailService,
 ) CounterService {
 	return &counterServiceImpl{
 		counterRepository: counterRepository,
+
+		emailService: emailService,
 	}
 }
 

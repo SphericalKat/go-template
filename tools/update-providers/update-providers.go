@@ -230,20 +230,21 @@ package %s
 	})
 
 	var finalDefinitionSet string
-	var finalMockDefinitionSet string
 	var finalStructs string
-	var finalMockStructs string
+	var finalMockDefinitionSet string
+	var finalMockProviders string
 
 	for _, defSet := range definitionSets {
 		finalDefinitionSet += fmt.Sprintf("\n\t%s,", props.constructorPkg+"."+defSet.providerName)
 		finalStructs += fmt.Sprintf("\n\t%s.%s", props.constructorPkg, defSet.name)
 
 		if defSet.usesMock {
-			finalMockDefinitionSet += fmt.Sprintf("\n\t%s,", "mock_"+props.constructorPkg+".NewMock"+defSet.name)
-			finalMockStructs += fmt.Sprintf("\n\t%s.%s", "mock_"+props.constructorPkg, "Mock"+defSet.name)
+			mockProviderFn := "ProvideMock" + defSet.name
+			mockCreatorFn := "mock_" + props.constructorPkg + ".NewMock" + defSet.name
+			finalMockProviders += fmt.Sprintf("\nfunc %s(ctrl *gomock.Controller) %s {\nreturn %s(ctrl)\n}", mockProviderFn, props.constructorPkg+"."+defSet.name, mockCreatorFn)
+			finalMockDefinitionSet += fmt.Sprintf("\n\t%s,", mockProviderFn)
 		} else {
 			finalMockDefinitionSet = finalDefinitionSet
-			finalMockStructs = finalStructs
 		}
 	}
 
@@ -262,11 +263,10 @@ var %[3]sSet = wire.NewSet(%[6]s
 	wire.Struct(new(%[4]s), "*"),
 )
 
-type Mock%[4]s struct {%[7]s
-}
+%[7]s
 
 var Mock%[3]sSet = wire.NewSet(%[8]s
-	wire.Struct(new(Mock%[4]s), "*"),
+	wire.Struct(new(%[4]s), "*"),
 )
 `,
 			header,                 /* 1 */
@@ -275,7 +275,7 @@ var Mock%[3]sSet = wire.NewSet(%[8]s
 			pluralKind,             /* 4 */
 			finalStructs,           /* 5 */
 			finalDefinitionSet,     /* 6 */
-			finalMockStructs,       /* 7 */
+			finalMockProviders,     /* 7 */
 			finalMockDefinitionSet, /* 8 */
 		)
 
