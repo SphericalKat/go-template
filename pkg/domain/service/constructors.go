@@ -10,3 +10,7 @@ func ProvideCounterService(
 		counterRepository: counterRepository,
 	}
 }
+
+func ProvideEmailService() EmailService {
+	return &emailServiceImpl{}
+}

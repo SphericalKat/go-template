@@ -1,5 +1,9 @@
 //go:build buildtools
 
+// TODO: the current code is confusing and I'm not sure it's
+// error resilient or helpful in case something is not as
+// expected. Probably better to rewrite this.
+
 package main
 
 import (
@@ -14,6 +18,7 @@ import (
 	"os"
 	"os/exec"
 	"regexp"
+	"strings"
 	"unicode"
 
 	"github.com/goalistdeveloper/go-template/utils"
@@ -71,7 +76,7 @@ func updateProviders(props UpdateProvidersProps) {
 	kind := UpperFirstChar(props.kind)
 	pluralKind := UpperFirstChar(props.pluralKind)
 
-	handlerInterfaceNameRe := regexp.MustCompile(`[a-zA-Z1-9]+` + kind)
+	interfaceNameRe := regexp.MustCompile(`[a-zA-Z1-9]+` + kind)
 
 	files, err := os.ReadDir(props.dir)
 	if err != nil {
@@ -85,6 +90,8 @@ func updateProviders(props UpdateProvidersProps) {
 package %s
 `, header, props.constructorPkg)
 
+	var mockUsingDefs []string
+
 	for _, file := range files {
 		if !file.IsDir() {
 			filePath := props.dir + "/" + file.Name()
@@ -95,6 +102,11 @@ package %s
 				continue
 			}
 			src := string(byteContent)
+
+			usesMock := false
+			if strings.SplitN(src, "\n", 2)[0] == "//use:mock" {
+				usesMock = true
+			}
 
 			file, err := parser.ParseFile(token.NewFileSet(), "", src, 0)
 			if err != nil {
@@ -116,12 +128,16 @@ package %s
 					if ok {
 						_, ok = ts.Type.(*ast.InterfaceType)
 						if ok {
-							if handlerInterfaceNameRe.MatchString(ts.Name.Name) {
+							if interfaceNameRe.MatchString(ts.Name.Name) {
 								definitionFound = true
 								definition = ts.Name.Name
 								provider = "Provide" + definition
 								implStruct = LowerFirstChar(definition) + "Impl"
 								definitions = append(definitions, definition)
+
+								if usesMock {
+									mockUsingDefs = append(mockUsingDefs, definition)
+								}
 							}
 						}
 					}
@@ -182,7 +198,12 @@ package %s
 					}
 
 					constructorDecls += fmt.Sprintf("func %s(\n%s) %s { return &%s{%s}\n}\n\n", provider, args, definition, implStruct, assmts)
-					fmt.Printf("%s: constructor gen: generated constructor\n", definition)
+					fmt.Printf("%s: constructor gen: generated constructor", definition)
+					if usesMock {
+						fmt.Printf(" (will be mocked in tests)\n")
+					} else {
+						fmt.Printf("\n")
+					}
 				} else if !providerFound && !implStructFound {
 					panic(fmt.Errorf(kind+" found, but impl struct '%s' not found", implStruct))
 				} else {
@@ -196,6 +217,7 @@ package %s
 		name         string
 		lcName       string
 		providerName string
+		usesMock     bool
 	}
 
 	definitionSets := utils.MapOver(definitions, func(def string) DefinitionSet {
@@ -203,15 +225,26 @@ package %s
 			name:         def,
 			lcName:       LowerFirstChar(def),
 			providerName: "Provide" + def,
+			usesMock:     utils.Contains(mockUsingDefs, def),
 		}
 	})
 
-	var definitionSetReplacement string
-	var structReplacement string
+	var finalDefinitionSet string
+	var finalMockDefinitionSet string
+	var finalStructs string
+	var finalMockStructs string
 
 	for _, defSet := range definitionSets {
-		definitionSetReplacement += fmt.Sprintf("\n\t%s,", props.constructorPkg+"."+defSet.providerName)
-		structReplacement += fmt.Sprintf("\n\t%s.%s", props.constructorPkg, defSet.name)
+		finalDefinitionSet += fmt.Sprintf("\n\t%s,", props.constructorPkg+"."+defSet.providerName)
+		finalStructs += fmt.Sprintf("\n\t%s.%s", props.constructorPkg, defSet.name)
+
+		if defSet.usesMock {
+			finalMockDefinitionSet += fmt.Sprintf("\n\t%s,", "mock_"+props.constructorPkg+".NewMock"+defSet.name)
+			finalMockStructs += fmt.Sprintf("\n\t%s.%s", "mock_"+props.constructorPkg, "Mock"+defSet.name)
+		} else {
+			finalMockDefinitionSet = finalDefinitionSet
+			finalMockStructs = finalStructs
+		}
 	}
 
 	wireTemplate :=
@@ -228,7 +261,23 @@ type %[4]s struct {%[5]s
 var %[3]sSet = wire.NewSet(%[6]s
 	wire.Struct(new(%[4]s), "*"),
 )
-`, header, props.providerPkg, kind, pluralKind, structReplacement, definitionSetReplacement)
+
+type Mock%[4]s struct {%[7]s
+}
+
+var Mock%[3]sSet = wire.NewSet(%[8]s
+	wire.Struct(new(Mock%[4]s), "*"),
+)
+`,
+			header,                 /* 1 */
+			props.providerPkg,      /* 2 */
+			kind,                   /* 3 */
+			pluralKind,             /* 4 */
+			finalStructs,           /* 5 */
+			finalDefinitionSet,     /* 6 */
+			finalMockStructs,       /* 7 */
+			finalMockDefinitionSet, /* 8 */
+		)
 
 	WriteSource(props.constructorsPath, constructorDecls)
 	WriteSource(props.providerPath, wireTemplate)

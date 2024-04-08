@@ -14,3 +14,12 @@ var HandlerSet = wire.NewSet(
 	handler.ProvideCounterHandler,
 	wire.Struct(new(Handlers), "*"),
 )
+
+type MockHandlers struct {
+	handler.CounterHandler
+}
+
+var MockHandlerSet = wire.NewSet(
+	handler.ProvideCounterHandler,
+	wire.Struct(new(MockHandlers), "*"),
+)

@@ -47,3 +47,13 @@ func Span(ctx context.Context, name string, f func(ctx context.Context) error) e
 
 	return nil
 }
+
+func Contains[T comparable](data []T, elem T) bool {
+	for _, e := range data {
+		if e == elem {
+			return true
+		}
+	}
+
+	return false
+}
