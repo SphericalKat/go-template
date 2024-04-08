@@ -1,6 +1,9 @@
 all:
     bash ./bin/allgen.sh
 
+mocks:
+    bash ./bin/mockgen.sh
+
 providers:
     bash ./bin/providergen.sh
 
