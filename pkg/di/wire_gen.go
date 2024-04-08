@@ -21,6 +21,7 @@ import (
 
 // Injectors from wire.go:
 
+// handlers
 func InjectHandlers() (*api.Handlers, error) {
 	configConfig, err := config.ProvideConfig()
 	if err != nil {
@@ -59,6 +60,79 @@ func InjectMockHandlers(ctrl *gomock.Controller) (*api.Handlers, error) {
 	return handlers, nil
 }
 
+// services
+func InjectServices() (*di.Services, error) {
+	configConfig, err := config.ProvideConfig()
+	if err != nil {
+		return nil, err
+	}
+	client, err := db.ProvideDB(configConfig)
+	if err != nil {
+		return nil, err
+	}
+	counterRepository := repository.ProvideCounterRepository(client)
+	emailService := service.ProvideEmailService()
+	counterService := service.ProvideCounterService(counterRepository, emailService)
+	services := &di.Services{
+		CounterService: counterService,
+		EmailService:   emailService,
+	}
+	return services, nil
+}
+
+func InjectMockServices(ctrl *gomock.Controller) (*di.Services, error) {
+	configConfig, err := config.ProvideConfig()
+	if err != nil {
+		return nil, err
+	}
+	client, err := db.ProvideDB(configConfig)
+	if err != nil {
+		return nil, err
+	}
+	counterRepository := repository.ProvideCounterRepository(client)
+	emailService := di.ProvideMockEmailService(ctrl)
+	counterService := service.ProvideCounterService(counterRepository, emailService)
+	services := &di.Services{
+		CounterService: counterService,
+		EmailService:   emailService,
+	}
+	return services, nil
+}
+
+// repositories
+func InjectRepository() (*di.Repositories, error) {
+	configConfig, err := config.ProvideConfig()
+	if err != nil {
+		return nil, err
+	}
+	client, err := db.ProvideDB(configConfig)
+	if err != nil {
+		return nil, err
+	}
+	counterRepository := repository.ProvideCounterRepository(client)
+	repositories := &di.Repositories{
+		CounterRepository: counterRepository,
+	}
+	return repositories, nil
+}
+
+func InjectMockRepository(ctrl *gomock.Controller) (*di.Repositories, error) {
+	configConfig, err := config.ProvideConfig()
+	if err != nil {
+		return nil, err
+	}
+	client, err := db.ProvideDB(configConfig)
+	if err != nil {
+		return nil, err
+	}
+	counterRepository := repository.ProvideCounterRepository(client)
+	repositories := &di.Repositories{
+		CounterRepository: counterRepository,
+	}
+	return repositories, nil
+}
+
+// misc
 func InjectDb() (*ent.Client, error) {
 	configConfig, err := config.ProvideConfig()
 	if err != nil {

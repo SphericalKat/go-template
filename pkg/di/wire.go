@@ -31,6 +31,7 @@ var mockSet = wire.NewSet(
 	domainProvider.MockServiceSet,
 )
 
+// handlers
 func InjectHandlers() (*api.Handlers, error) {
 	wire.Build(concreteSet, dbSet)
 	return &api.Handlers{}, nil
@@ -41,6 +42,29 @@ func InjectMockHandlers(ctrl *gomock.Controller) (*api.Handlers, error) {
 	return &api.Handlers{}, nil
 }
 
+// services
+func InjectServices() (*domainProvider.Services, error) {
+	wire.Build(concreteSet, dbSet)
+	return &domainProvider.Services{}, nil
+}
+
+func InjectMockServices(ctrl *gomock.Controller) (*domainProvider.Services, error) {
+	wire.Build(mockSet, dbSet)
+	return &domainProvider.Services{}, nil
+}
+
+// repositories
+func InjectRepository() (*domainProvider.Repositories, error) {
+	wire.Build(concreteSet, dbSet)
+	return &domainProvider.Repositories{}, nil
+}
+
+func InjectMockRepository(ctrl *gomock.Controller) (*domainProvider.Repositories, error) {
+	wire.Build(mockSet, dbSet)
+	return &domainProvider.Repositories{}, nil
+}
+
+// misc
 func InjectDb() (*ent.Client, error) {
 	wire.Build(dbSet)
 	return &ent.Client{}, nil
