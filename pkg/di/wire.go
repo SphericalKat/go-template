@@ -8,8 +8,10 @@ import (
 	"github.com/goalistdeveloper/go-template/ent"
 	"github.com/goalistdeveloper/go-template/internal/config"
 	"github.com/goalistdeveloper/go-template/internal/db"
+	"github.com/goalistdeveloper/go-template/internal/tracing"
 	domainProvider "github.com/goalistdeveloper/go-template/pkg/domain/provider"
 	"github.com/golang/mock/gomock"
+	"go.opentelemetry.io/otel/sdk/trace"
 
 	"github.com/google/wire"
 )
@@ -68,4 +70,9 @@ func InjectMockRepository(ctrl *gomock.Controller) (*domainProvider.Repositories
 func InjectDb() (*ent.Client, error) {
 	wire.Build(dbSet)
 	return &ent.Client{}, nil
+}
+
+func InjectTracerProvider() (*trace.TracerProvider, error) {
+	wire.Build(tracing.ProvideTracerProvider)
+	return &trace.TracerProvider{}, nil
 }

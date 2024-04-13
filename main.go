@@ -16,11 +16,6 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/go-errors/errors"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
-	"go.opentelemetry.io/otel/sdk/resource"
-	sdktrace "go.opentelemetry.io/otel/sdk/trace"
-	semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
 )
 
 func main() {
@@ -37,26 +32,10 @@ func main() {
 	}
 
 	// ─── Configure Tracer Provider ────────────────────────────────────────
-	exporter, err := otlptracehttp.New(ctx, otlptracehttp.WithEndpoint("localhost:4318"), otlptracehttp.WithInsecure())
+	tp, err := di.InjectTracerProvider()
 	if err != nil {
 		handleErr(err)
 	}
-
-	resource, err := resource.New(ctx,
-		resource.WithAttributes(
-			semconv.ServiceNameKey.String("gotemplate"),
-			semconv.ServiceVersionKey.String("0.1.0"),
-			attribute.String("environment", "local"),
-		),
-	)
-	if err != nil {
-		handleErr(err)
-	}
-
-	tp := sdktrace.NewTracerProvider(
-		sdktrace.WithBatcher(exporter),
-		sdktrace.WithResource(resource),
-	)
 
 	// ─── start http server ────────────────────────────────────────────────
 	handlers, err := di.InjectHandlers()

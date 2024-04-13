@@ -12,11 +12,13 @@ import (
 	"github.com/goalistdeveloper/go-template/ent"
 	"github.com/goalistdeveloper/go-template/internal/config"
 	"github.com/goalistdeveloper/go-template/internal/db"
+	"github.com/goalistdeveloper/go-template/internal/tracing"
 	"github.com/goalistdeveloper/go-template/pkg/domain/provider"
 	"github.com/goalistdeveloper/go-template/pkg/domain/repository"
 	"github.com/goalistdeveloper/go-template/pkg/domain/service"
 	"github.com/golang/mock/gomock"
 	"github.com/google/wire"
+	"go.opentelemetry.io/otel/sdk/trace"
 )
 
 // Injectors from wire.go:
@@ -143,6 +145,14 @@ func InjectDb() (*ent.Client, error) {
 		return nil, err
 	}
 	return client, nil
+}
+
+func InjectTracerProvider() (*trace.TracerProvider, error) {
+	tracerProvider, err := tracing.ProvideTracerProvider()
+	if err != nil {
+		return nil, err
+	}
+	return tracerProvider, nil
 }
 
 // wire.go:
