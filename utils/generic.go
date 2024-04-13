@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"runtime"
 
+	"github.com/ogen-go/ogen/otelogen"
 	"go.opentelemetry.io/otel/trace"
 )
 
@@ -36,11 +37,11 @@ func MapOver[T, U any](data []T, f func(T) U) []U {
 }
 
 func Span(ctx context.Context, name string, f func(ctx context.Context) error) error {
-	span := trace.SpanFromContext(ctx)
+	internalCtx, span := trace.SpanFromContext(ctx).TracerProvider().Tracer(otelogen.Name).Start(ctx, name)
 	defer span.End()
 	span.SetName(name)
 
-	if err := f(ctx); err != nil {
+	if err := f(internalCtx); err != nil {
 		span.RecordError(err)
 		return err
 	}

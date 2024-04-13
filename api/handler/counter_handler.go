@@ -2,11 +2,12 @@ package handler
 
 import (
 	"context"
-	"fmt"
+	"time"
 
 	genapi "github.com/goalistdeveloper/go-template/api/gen"
 	"github.com/goalistdeveloper/go-template/logger/tlog"
 	"github.com/goalistdeveloper/go-template/pkg/domain/service"
+	"github.com/goalistdeveloper/go-template/utils"
 )
 
 type CounterHandler interface {
@@ -24,8 +25,17 @@ func (h *counterHandlerImpl) GetCurrentCount(ctx context.Context) (*genapi.Count
 		"meaningOfLife": "42",
 	})
 
-	var a []string
-	fmt.Println(a[3])
+	// var a []string
+	// fmt.Println(a[3])
+	err := utils.Span(ctx, "sleeping zzzz", func(ctx context.Context) error {
+		tlog.Info(ctx, "log inside context", nil)
+		time.Sleep(1 * time.Second)
+		return nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
 
 	return &genapi.Counter{
 		Count: 0,
