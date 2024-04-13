@@ -2,6 +2,8 @@ package tracing
 
 import (
 	"context"
+
+	"github.com/goalistdeveloper/go-template/internal/config"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
 	"go.opentelemetry.io/otel/sdk/resource"
@@ -12,7 +14,7 @@ import (
 var tp *sdktrace.TracerProvider
 
 // ProvideTracerProvider provides a tracer provider
-func ProvideTracerProvider() (*sdktrace.TracerProvider, error) {
+func ProvideTracerProvider(conf *config.Config) (*sdktrace.TracerProvider, error) {
 	if tp == nil {
 		ctx := context.Background()
 		// ─── Configure Tracer Provider ────────────────────────────────────────
@@ -23,9 +25,9 @@ func ProvideTracerProvider() (*sdktrace.TracerProvider, error) {
 
 		resource, err := resource.New(ctx,
 			resource.WithAttributes(
-				semconv.ServiceNameKey.String("setsu"),
-				semconv.ServiceVersionKey.String("0.1.0"),
-				attribute.String("environment", "local"),
+				semconv.ServiceNameKey.String(conf.ServiceName),
+				semconv.ServiceVersionKey.String(conf.ServiceVersion),
+				attribute.String("environment", conf.Env),
 			),
 		)
 		if err != nil {

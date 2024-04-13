@@ -20,6 +20,13 @@ type Config struct {
 	// used by the repositories (required)
 	DatabaseURL    string `koanf:"DATABASE_URL"`
 	DatabaseDriver string `koanf:"DATABASE_DRIVER"`
+
+	// used by tracing
+	ServiceName    string `koanf:"SERVICE_NAME"`
+	ServiceVersion string `koanf:"SERVICE_VERSION"`
+
+	// general
+	Env string `koanf:"ENV"`
 }
 
 var Conf *Config
@@ -34,6 +41,9 @@ var allowedDBTypes = []string{
 var defaultConfigProvider = confmap.Provider(map[string]any{
 	"DATABASE_URL":    "file:sqlite.db?mode=rwc&cache=shared&_fk=1",
 	"DATABASE_DRIVER": "sqlite3",
+	"SERVICE_NAME":    "go-template",
+	"SERVICE_VERSION": "0.1.0",
+	"ENV":             "local",
 }, "")
 
 func ProvideConfig() (*Config, error) {

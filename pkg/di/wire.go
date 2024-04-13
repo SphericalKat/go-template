@@ -33,6 +33,11 @@ var mockSet = wire.NewSet(
 	domainProvider.MockServiceSet,
 )
 
+var tracingSet = wire.NewSet(
+	config.ProvideConfig,
+	tracing.ProvideTracerProvider,
+)
+
 // handlers
 func InjectHandlers() (*api.Handlers, error) {
 	wire.Build(concreteSet, dbSet)
@@ -73,6 +78,6 @@ func InjectDb() (*ent.Client, error) {
 }
 
 func InjectTracerProvider() (*trace.TracerProvider, error) {
-	wire.Build(tracing.ProvideTracerProvider)
+	wire.Build(tracingSet)
 	return &trace.TracerProvider{}, nil
 }

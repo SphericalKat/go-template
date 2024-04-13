@@ -148,7 +148,11 @@ func InjectDb() (*ent.Client, error) {
 }
 
 func InjectTracerProvider() (*trace.TracerProvider, error) {
-	tracerProvider, err := tracing.ProvideTracerProvider()
+	configConfig, err := config.ProvideConfig()
+	if err != nil {
+		return nil, err
+	}
+	tracerProvider, err := tracing.ProvideTracerProvider(configConfig)
 	if err != nil {
 		return nil, err
 	}
@@ -162,3 +166,5 @@ var dbSet = wire.NewSet(db.ProvideDB, config.ProvideConfig)
 var concreteSet = wire.NewSet(api.HandlerSet, di.RepositorySet, di.ServiceSet)
 
 var mockSet = wire.NewSet(api.MockHandlerSet, di.MockRepositorySet, di.MockServiceSet)
+
+var tracingSet = wire.NewSet(config.ProvideConfig, tracing.ProvideTracerProvider)
