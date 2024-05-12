@@ -10,6 +10,7 @@ import (
 	genapi "github.com/goalistdeveloper/go-template/api/gen"
 	"github.com/goalistdeveloper/go-template/pkg/di"
 	"github.com/golang/mock/gomock"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -75,4 +76,13 @@ func (s *TestSuiteBase) SetupTest() {
 func (s *TestSuiteBase) TearDownTest() {
 	s.Ctrl.Finish()
 	s.Server.Shutdown(s.Ctx)
+}
+
+// helpers
+func (s *TestSuiteBase) RNil(object any, msgAndArgs ...any) {
+	assert.Nil(s.T(), object, msgAndArgs...)
+}
+
+func (s *TestSuiteBase) RNotNil(object any, msgAndArgs ...any) {
+	assert.NotNil(s.T(), object, msgAndArgs...)
 }
