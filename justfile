@@ -27,7 +27,12 @@ openapi-build: openapi-validate
     @echo "Building OpenAPI spec..."
     bash ./spec/bin/build.sh
 
+docker-build tag:
+    @echo "Building docker container with tag {{tag}}..."
+    docker build -t tag . -f docker/Dockerfile
+
 alias openapi := openapi-build
+alias docker := docker-build
 
 run:
     go run .
