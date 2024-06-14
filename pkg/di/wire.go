@@ -4,6 +4,8 @@
 package di
 
 import (
+	"database/sql"
+
 	"github.com/goalistdeveloper/go-template/api"
 	"github.com/goalistdeveloper/go-template/ent"
 	"github.com/goalistdeveloper/go-template/internal/config"
@@ -18,6 +20,7 @@ import (
 
 var dbSet = wire.NewSet(
 	db.ProvideDB,
+	db.ProvideRawDB,
 	config.ProvideConfig,
 )
 
@@ -80,4 +83,9 @@ func InjectDb() (*ent.Client, error) {
 func InjectTracerProvider() (*trace.TracerProvider, error) {
 	wire.Build(tracingSet)
 	return &trace.TracerProvider{}, nil
+}
+
+func InjectRawDb() (*sql.DB, error) {
+	wire.Build(dbSet)
+	return &sql.DB{}, nil
 }

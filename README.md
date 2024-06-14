@@ -12,6 +12,7 @@ This repository contains the code for our fully featured go-template, from which
 - [Go >= 1.21.5](https://go.dev/doc/install)
 - [redocly](https://github.com/Redocly/redocly-cli) (generate API documentation)
 - [ent](https://entgo.io/docs/getting-started) (DB ORM)
+- [goose](https://github.com/pressly/goose?tab=readme-ov-file#install) (DB migrations tool)
 - [ogen](https://ogen.dev/docs/intro) (generate APIs)
 - [wire](https://github.com/google/wire) (dependency injection)
 - [just](https://just.systems/docs/en/getting-started) (task runner)
@@ -40,3 +41,6 @@ Necessary for generating APIs, DB schemas, dependency injection, etc. A detailed
 
 ## Devcontainers
 This repository contains a devcontainer configuration for Visual Studio Code. The devcontainer is pre-configured with all the necessary tools and extensions to start developing right away. A detailed explanation of the devcontainer can be found [here](docs/en/devcontainer.md).
+
+## Migrations
+Refer to the [migrations](docs/en/migrations.md) documentation for more information on how to create and apply migrations.
