@@ -1,3 +1,7 @@
+mod migration
+mod openapi
+mod docker
+
 all:
     bash ./bin/allgen.sh
 
@@ -19,28 +23,8 @@ api:
 wire:
     bash ./bin/gogen.sh
 
-openapi-validate:
-    @echo "Validating OpenAPI spec..."
-    bash ./spec/bin/validate.sh
-
-openapi-build: openapi-validate
-    @echo "Building OpenAPI spec..."
-    bash ./spec/bin/build.sh
-
-docker-build tag:
-    @echo "Building docker container with tag {{tag}}..."
-    docker build -t tag . -f docker/Dockerfile
-
-alias openapi := openapi-build
-alias docker := docker-build
-
 run:
     go run .
 
 build:
     GOOS=linux GOARCH=amd64 go build -o main .
-
-migration-create name:
-    cd migrations
-    goose create {{name}}
-    cd ..
