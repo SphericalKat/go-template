@@ -71,6 +71,7 @@ RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | 
 # Install project dependencies
 RUN npm i -g @redocly/cli
 RUN go install -v github.com/ogen-go/ogen/cmd/ogen@latest
+RUN go install github.com/pressly/goose/v3/cmd/goose@latest
 RUN go install github.com/google/wire/cmd/wire@latest
 RUN curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to ~/bin
 RUN echo 'export PATH="$PATH:$HOME/bin"' >>~/.zshrc \
