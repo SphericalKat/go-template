@@ -10,24 +10,28 @@ import (
 	"time"
 
 	genapi "github.com/goalistdeveloper/go-template/api/gen"
+	"github.com/goalistdeveloper/go-template/internal/db"
 	"github.com/goalistdeveloper/go-template/middleware"
 	"github.com/goalistdeveloper/go-template/pkg/di"
 	"github.com/goalistdeveloper/go-template/utils"
 
 	"github.com/fatih/color"
 	"github.com/go-errors/errors"
+	_ "github.com/goalistdeveloper/go-template/migrations" // necessary to register migrations
 )
 
 func main() {
 	ctx := context.Background()
 
-	// ─── ent auto-migrate ────────────────────────────────────────────────
-	client, err := di.InjectDb()
+	// ─── auto-migrate ────────────────────────────────────────────────
+	rawDb, err := di.InjectRawDb()
 	if err != nil {
 		handleErr(err)
 	}
 
-	if err := client.Schema.Create(ctx); err != nil {
+	// migrate to the latest version
+	err = db.MigrateUp(rawDb)
+	if err != nil {
 		handleErr(err)
 	}
 
